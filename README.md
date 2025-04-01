@@ -1,6 +1,6 @@
 #   ELK Stack (Elasticsearch, Logstash, Kibana) Kurulumu.
 
-Bu kılavuz, **Ubuntu 24.04.2** üzerinde **ELK Stack (Elasticsearch, Logstash, Kibana)** kurulumunu adım adım anlatmaktadır. 
+Bu kılavuz, **Ubuntu 24.04.2** üzerinde **ELK Stack (Elasticsearch, Logstash, Kibana)** ve **Fleet server** kurulumunu adım adım anlatmaktadır. 
 
 ---
 
@@ -191,4 +191,35 @@ sudo /usr/share/kibana/bin/kibana-verification-code
 Kodu girin ve kullanıcı adı/şifreniz ile giriş yapın.
 
 ---
+## ╰┈➤ 11. Fleet Server Kurulumu
+ #### Fleet Server, Elastic Stack'in bir parçası olarak kullanılan bir sistemdir. Merkezi bir yönetim noktası olarak çalışır ve Elastic Agent'ların verilerini Elasticsearch'e göndermesi ve yönetilmesi için bir platform sağlar
+ - ####  Fleet Server: Merkezi bir yönetim noktasıdır; Agent'ları kontrol eder ve veri toplama süreçlerini organize eder.
+ - ####  Elastic Agent: Veri toplayıcıdır; logları, metrikleri ve güvenlik olaylarını toplar ve Fleet Server'a iletir.
+ Fleet Server İçin Port Erişimine İzin Verme:
+```bash
+sudo ufw allow 8220
+```
 
+ Fleet Server Tanımlama
+- Fleet->Agents->add Fleet Server->Quick start 
+- **Name:** `fleet-server-main`(Dilediğiniz ad)
+- **URL:** `https://192.168.65.139:8220`(Elasticsearch host)
+
+ Fleet Server'ı İndirme ve Kurma:
+ - Karşınıza çıkan kurulum seçeneklerini kopyalayarak ilgili platformda çalıştırabilirsiniz.
+```bash
+curl -L -O https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-8.17.4-linux-x86_64.tar.gz
+tar xzvf elastic-agent-8.17.4-linux-x86_64.tar.gz
+cd elastic-agent-8.17.4-linux-x86_64
+sudo ./elastic-agent install \
+  --fleet-server-es=https://192.168.65.139:9200 \
+  --fleet-server-service-token=AAEAAWVsYXN0aWMvZmxlZXQic2VydmVyL3Rva2VuLTE3NDM1gDIwOTE2NDg6VURtU2gxTmhTaXl5b3V5ODV6UUtPUQ \
+  --fleet-server-policy=serhat-k-l---fleet-server-policy \
+  --fleet-server-es-ca-trusted-fingerprint=05d1dea91d6s0572997c24b5b80ecgbf5533fd19df74dffcee0fc1bfb519836c \
+  --fleet-server-port=8220
+```
+
+ Fleet Server Durumunu Kontrol Etme:
+- Fleet Server'ınız **Fleet -> Agents** sekmesinde görünmelidir. Eğer **Healthy** olarak görünüyorsa, kurulum başarıyla tamamlanmıştır.
+
+---
