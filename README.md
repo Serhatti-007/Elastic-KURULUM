@@ -1,6 +1,6 @@
-# 🛠️ Ubuntu 24.04.2 Üzerinde ELK (Elasticsearch, Logstash, Kibana) Kurulumu
+#   ELK Stack (Elasticsearch, Logstash, Kibana) Kurulumu.
 
-Bu kılavuz, **Ubuntu 24.04.2** üzerinde **ELK Stack (Elasticsearch, Logstash, Kibana)** kurulumunu adım adım anlatmaktadır. 📌
+Bu kılavuz, **Ubuntu 24.04.2** üzerinde **ELK Stack (Elasticsearch, Logstash, Kibana)** kurulumunu adım adım anlatmaktadır. 
 
 ---
 
